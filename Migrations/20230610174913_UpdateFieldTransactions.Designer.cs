@@ -4,6 +4,7 @@ using DotnetMarketplace.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotnetMarketplace.Migrations
 {
     [DbContext(typeof(DbMarketplaceContext))]
-    partial class DbMarketplaceContextModelSnapshot : ModelSnapshot
+    [Migration("20230610174913_UpdateFieldTransactions")]
+    partial class UpdateFieldTransactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,20 +57,17 @@ namespace DotnetMarketplace.Migrations
                     b.Property<long>("Bill")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("Qty")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
+
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

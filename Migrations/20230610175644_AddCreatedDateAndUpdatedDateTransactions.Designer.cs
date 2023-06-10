@@ -4,6 +4,7 @@ using DotnetMarketplace.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotnetMarketplace.Migrations
 {
     [DbContext(typeof(DbMarketplaceContext))]
-    partial class DbMarketplaceContextModelSnapshot : ModelSnapshot
+    [Migration("20230610175644_AddCreatedDateAndUpdatedDateTransactions")]
+    partial class AddCreatedDateAndUpdatedDateTransactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
