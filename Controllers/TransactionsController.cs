@@ -27,7 +27,7 @@ namespace DotnetMarketplace.Controllers
         {
             var transaction = await _context.Transactions
                 .Where(t => t.Id == id)
-                .Include(t => t.Product)
+                .Include(t => t.TransactionDetails)
                 .Include(t => t.User)
                 .AsNoTracking()
                 .SingleAsync();
@@ -40,32 +40,43 @@ namespace DotnetMarketplace.Controllers
             return transaction;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Transaction>> PostTransaction(TransactionRequest request)
+        [HttpPost("/checkout")]
+        public async Task<ActionResult<Transaction>> CheckoutTransaction(CheckoutTransactionRequest request)
         {
-            var product = await _context.Products.FindAsync(request.ProductId);
-            var user = await _context.Users.FindAsync(request.UserId);
+            var carts = await _context.Carts.Where(c => request.CheckoutDetail.Any(d => d == c.Id)).ToListAsync();
 
-            if (product == null)
+            if (carts.Count < request.CheckoutDetail.Count)
             {
-                return NotFound("Product not found");
+                return NotFound("Cart not found");
             }
+
+            var user = await _context.Users.FindAsync(carts[0].UserId);
 
             if (user == null)
             {
                 return NotFound("User not found");
             }
 
-            var qty = request.Qty;
-            var bill = product.Price * qty;
-
             var transaction = new Transaction();
-            transaction.ProductId = product.Id;
-            transaction.Bill = bill;
+            transaction.Bill = carts.Sum(c => c.Amount * c.Qty);
             transaction.UserId = user.Id;
-            transaction.Qty = qty;
+            transaction.PaymentProvider = request.PaymentProvider;
+            transaction.ShippingProvider = request.ShippingProvider;
 
             _context.Transactions.Add(transaction);
+            await _context.SaveChangesAsync();
+
+            var transactionDetails = carts.Select(cart => {
+                var transactionDetail = new TransactionDetail();
+                transactionDetail.Amount = cart.Amount;
+                transactionDetail.ProductId = cart.ProductId;
+                transactionDetail.Notes = cart.Notes;
+                transactionDetail.Qty = cart.Qty;
+                transactionDetail.TransactionId = transaction.Id;
+
+                return transactionDetail;
+            });
+            _context.TransactionDetails.AddRange(transactionDetails);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetTransaction), new { id = transaction.Id }, transaction);

@@ -4,6 +4,7 @@ using DotnetMarketplace.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotnetMarketplace.Migrations
 {
     [DbContext(typeof(DbMarketplaceContext))]
-    partial class DbMarketplaceContextModelSnapshot : ModelSnapshot
+    [Migration("20230612071623_AddCartsAndTransactionDetailTable")]
+    partial class AddCartsAndTransactionDetailTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,8 +35,8 @@ namespace DotnetMarketplace.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Notes")
+                        .HasColumnType("float");
 
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
@@ -90,12 +92,6 @@ namespace DotnetMarketplace.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PaymentProvider")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShippingProvider")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
@@ -120,8 +116,8 @@ namespace DotnetMarketplace.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Notes")
+                        .HasColumnType("float");
 
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");

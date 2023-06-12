@@ -5,11 +5,11 @@ namespace DotnetMarketplace.Models
         public long Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
-        public long ProductId { get; set; }
-        public Product? Product { get; set; }
         public long UserId { get; set; }
         public User? User { get; set; }
-        public long Qty { get; set; }
-        public long Bill { get; set; }
+        public double Bill { get; set; }
+        public string? PaymentProvider { get; set; }
+        public string? ShippingProvider { get; set; }
+        public ICollection<TransactionDetail> TransactionDetails { get; } = new List<TransactionDetail>();
     }
 }
