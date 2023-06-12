@@ -18,13 +18,22 @@ namespace DotnetMarketplace.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cart>>> GetCarts()
         {
-            return await _context.Carts.ToListAsync();
+            return await _context.Carts
+                .Include(c => c.Product)
+                .Include(c => c.User)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Cart>> GetCart(long id)
         {
-            var cart = await _context.Carts.FindAsync(id);
+            var cart = await _context.Carts
+                .Where(c => c.Id == id)
+                .Include(c => c.Product)
+                .Include(c => c.User)
+                .AsNoTracking()
+                .SingleAsync();
 
             if (cart == null)
             {
