@@ -40,7 +40,7 @@ namespace DotnetMarketplace.Controllers
             return transaction;
         }
 
-        [HttpPost("/checkout")]
+        [HttpPost("checkout")]
         public async Task<ActionResult<Transaction>> CheckoutTransaction(CheckoutTransactionRequest request)
         {
             var carts = await _context.Carts.Where(c => request.CheckoutDetail.Any(d => d == c.Id)).ToListAsync();
