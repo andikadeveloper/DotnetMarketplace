@@ -1,5 +1,6 @@
 using DotnetMarketplace.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotnetMarketplace.Controllers
 {
@@ -12,6 +13,12 @@ namespace DotnetMarketplace.Controllers
         public CartsController(DbMarketplaceContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Cart>>> GetCarts()
+        {
+            return await _context.Carts.ToListAsync();
         }
 
         [HttpGet("{id}")]
