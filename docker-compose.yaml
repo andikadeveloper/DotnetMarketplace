@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  sql-server-db:
+    container_name: sql-server-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      - MSSQL_SA_PASSWORD=9@p9!ANz95vAg6x3p#T@Mie
+      - ACCEPT_EULA=Y
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+    networks:
+      - default-network
+networks:
+  default-network:
